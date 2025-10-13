@@ -1,0 +1,18 @@
+void main(){
+printsharp(10);
+}
+
+void printsharp(int size) {
+  for(int i=0; i<size; i++){
+    String result = '';
+    for( int j =0; j<size; j++){      
+      if(i==j || size - 1 - i==j){
+        result += '#';
+      }
+      else{
+        result+=' ';
+      }
+    }//두번째 for
+    print(result);
+  }//첫번째 for
+}//함수
