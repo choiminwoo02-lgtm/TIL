@@ -1,0 +1,149 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    title: '플러터 데모!',
+    home: MyHomePage(title: '교재 실습하기'),
+  ));
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool opacity = true; // ✅ 여기서 상태 선언
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: CreateS6(), // ✅ CreateS6에서 상태 사용
+    );
+  }
+
+  Widget CreateS1() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(color: Colors.red, width: 100, height: 40),
+        const SizedBox(height: 100),
+        Container(color: Colors.blue, width: 100, height: 40),
+      ],
+    );
+  }
+
+  Widget CreateS2() {
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: Container(color: Colors.red),
+    );
+  }
+
+  Widget CreateS3() {
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: List.generate(
+        10,
+        (index) => Container(
+          width: 100,
+          height: 100,
+          margin: const EdgeInsets.all(5),
+          color: Colors.red.withAlpha((index + 1) * 25),
+          child: Center(child: Text(index.toString())),
+        ),
+      ),
+    );
+  }
+
+  Widget CreateS4() {
+    return PageView(
+      scrollDirection: Axis.vertical,
+      pageSnapping: true,
+      children: [
+        Container(
+          color: Colors.red,
+          child: const Center(
+            child: Text("1", style: TextStyle(fontSize: 50, color: Colors.white)),
+          ),
+        ),
+        Container(
+          color: Colors.blue,
+          child: const Center(
+            child: Text("2", style: TextStyle(fontSize: 50, color: Colors.white)),
+          ),
+        ),
+        Container(
+          color: Colors.green,
+          child: const Center(
+            child: Text("3", style: TextStyle(fontSize: 50, color: Colors.white)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget CreateS5() {
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        children: [
+          const TabBar(
+            tabs: [
+              Tab(text: "메뉴1"),
+              Tab(text: "메뉴2"),
+              Tab(text: "메뉴3"),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                CreateS1(),
+                CreateS3(),
+                CreateS4(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget CreateS6() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 1000),
+          width: opacity ? 100 : 150,
+          height: opacity ? 100 : 150,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: opacity ? Colors.red : Colors.blue,
+          ),
+          onEnd: () {
+            print("애니메이션 완료");
+          },
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              opacity = !opacity;
+            });
+          },
+          child: const Text('변경하기'),
+        ),
+      ],
+    );
+  }
+}
